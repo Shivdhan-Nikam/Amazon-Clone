@@ -1,6 +1,7 @@
 import 'package:amazon_app/common/widgets/custombutton.dart';
 import 'package:amazon_app/common/widgets/customfromfield.dart';
 import 'package:amazon_app/constants/global_variables.dart';
+import 'package:amazon_app/features/auth/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signup, signin }
@@ -17,6 +18,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final _SignUpFromKey = GlobalKey<FormState>();
   final _SignInFromKey = GlobalKey<FormState>();
+  final AuthServices authservices = AuthServices();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
@@ -27,6 +29,14 @@ class _AuthScreenState extends State<AuthScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+  }
+
+  void signUpUser() {
+    authservices.signUp(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text);
   }
 
   @override
