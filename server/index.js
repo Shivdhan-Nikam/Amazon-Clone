@@ -10,12 +10,20 @@ mongoose.connect(db).then(()=>{
     console.log(e)
 })
 
+
+const cors = require('cors'); //Setup CORS
+
+
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+    origin: '*',
+    allowedHeaders: 'X-Requested-With, Content-Type, auth-token',
+})); //Add authentication token header
+
 app.use(authRouter);
-
 const PORT = 3000;
-
 app.listen(PORT,()=>{
     console.log('Connected at port ',PORT);
 }); 
