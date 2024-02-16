@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'package:amazon_app/constants/error_handling.dart';
 import 'package:amazon_app/constants/global_variables.dart';
 import 'package:amazon_app/constants/utils.dart';
+import 'package:amazon_app/home/screens/home_screen.dart';
 import 'package:amazon_app/models/users.dart';
+import 'package:amazon_app/provider/userprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   void signUp(
@@ -28,6 +33,7 @@ class AuthServices {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+      // ignore: use_build_context_synchronously
       httpErrorhandling(
         response: res,
         context: context,
@@ -37,6 +43,44 @@ class AuthServices {
         },
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void signIn({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/signin'),
+        body: jsonEncode({'email': email, 'password': password}),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      debugPrint(res.body);
+      // ignore: use_build_context_synchronously
+      httpErrorhandling(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          final SharedPreferences prfs = await SharedPreferences.getInstance();
+          // ignore: use_build_context_synchronously
+          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+          await prfs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomeScreen.routeName,
+            (route) => false,
+          );
+        },
+      );
+    } catch (e) {
+      // ignore: use_build_context_synchronously
       showSnackBar(context, e.toString());
     }
   }

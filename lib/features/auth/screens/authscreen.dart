@@ -16,8 +16,8 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
-  final _SignUpFromKey = GlobalKey<FormState>();
-  final _SignInFromKey = GlobalKey<FormState>();
+  final _signUpFromKey = GlobalKey<FormState>();
+  final _signInFromKey = GlobalKey<FormState>();
   final AuthServices authservices = AuthServices();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -37,6 +37,13 @@ class _AuthScreenState extends State<AuthScreen> {
         email: _emailController.text,
         password: _passwordController.text,
         name: _nameController.text);
+  }
+
+  void signInUser() {
+    authservices.signIn(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text);
   }
 
   @override
@@ -81,7 +88,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.all(8),
                     color: GlobalVariables.backgroundColor,
                     child: Form(
-                      key: _SignUpFromKey,
+                      key: _signUpFromKey,
                       child: Column(
                         children: [
                           CustomFormFiled(
@@ -108,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           CustomButton(
                             hintText: "Sign Up",
                             onTap: () {
-                              if (_SignUpFromKey.currentState!.validate()) {
+                              if (_signUpFromKey.currentState!.validate()) {
                                 signUpUser();
                               }
                             },
@@ -143,7 +150,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.all(8),
                     color: GlobalVariables.backgroundColor,
                     child: Form(
-                      key: _SignInFromKey,
+                      key: _signInFromKey,
                       child: Column(
                         children: [
                           CustomFormFiled(
@@ -165,7 +172,11 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           CustomButton(
                             hintText: "Sign In",
-                            onTap: () {},
+                            onTap: () {
+                              if (_signInFromKey.currentState!.validate()) {
+                                signInUser();
+                              }
+                            },
                           ),
                         ],
                       ),
