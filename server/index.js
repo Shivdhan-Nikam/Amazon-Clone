@@ -23,6 +23,7 @@ app.use(cors({
 })); //Add authentication token header
 
 app.use(authRouter);
+
 const PORT = 3000;
 app.listen(PORT,()=>{
     console.log('Connected at port ',PORT);

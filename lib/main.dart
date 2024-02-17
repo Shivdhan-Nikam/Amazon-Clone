@@ -1,5 +1,7 @@
 import 'package:amazon_app/constants/global_variables.dart';
 import 'package:amazon_app/features/auth/screens/authscreen.dart';
+import 'package:amazon_app/features/auth/services/auth_services.dart';
+import 'package:amazon_app/home/screens/home_screen.dart';
 import 'package:amazon_app/provider/userprovider.dart';
 import 'package:amazon_app/routes.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +20,25 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+
+  final AuthServices authServices = AuthServices();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authServices.getUserData(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,12 +55,9 @@ class MyApp extends StatelessWidget {
             )),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Amazon Clone"),
-        ),
-        body: const AuthScreen(),
-      ),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? const HomeScreen()
+          : const AuthScreen(),
     );
   }
 }
