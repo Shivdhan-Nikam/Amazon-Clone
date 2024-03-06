@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:amazon_app/common/widgets/bottom_bar.dart';
 import 'package:amazon_app/constants/error_handling.dart';
 import 'package:amazon_app/constants/global_variables.dart';
 import 'package:amazon_app/constants/utils.dart';
@@ -74,7 +75,7 @@ class AuthServices {
           // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(
             context,
-            HomeScreen.routeName,
+            BottomNavBar.routeName,
             (route) => false,
           );
         },
