@@ -2,7 +2,6 @@ import 'package:amazon_app/common/widgets/bottom_bar.dart';
 import 'package:amazon_app/constants/global_variables.dart';
 import 'package:amazon_app/features/auth/screens/authscreen.dart';
 import 'package:amazon_app/features/auth/services/auth_services.dart';
-import 'package:amazon_app/home/screens/home_screen.dart';
 import 'package:amazon_app/provider/userprovider.dart';
 import 'package:amazon_app/routes.dart';
 import 'package:flutter/material.dart';
